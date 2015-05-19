@@ -1,6 +1,8 @@
 # P6
 Flights are added so that they pass through multiple airports.
 
+**Again, this looks way better in edit mode**
+
 Convert CityList and CityNode to templace classes List and ListNode
   Copy citylist.h to list.h
   Copy citylist.cpp to list.cpp
