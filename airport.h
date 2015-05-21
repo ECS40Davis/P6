@@ -11,7 +11,7 @@ public:
     virtual ~Airport();
 private:
 
-};
+}; // class Airport
 
 #endif
 
