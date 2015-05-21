@@ -13,5 +13,5 @@ private:
 
 };
 
-#endif	/* AIRPORT_H */
+#endif
 
