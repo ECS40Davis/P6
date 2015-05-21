@@ -7,18 +7,18 @@ using namespace std;
 template <typename T>
 int List<T>::count = 0;
 
-// ListNode::ListNode(const City &c, ListNode *node) : city(c), next(node)
+
 template <typename T>
 ListNode<T>::ListNode(const T &d, ListNode<T> *n) : data(d), next(n)
 {
   
-}  // ListNode())
+}  // ListNode<T>())
 
 
 template <typename T>
 List<T>::List() : head(NULL)
 {
-} // List()
+} // List<T>()
 
 
 template <typename T>
@@ -29,7 +29,7 @@ List<T>::~List()
     head = ptr->next;
     delete ptr;
   }  // for each node
-} // ~List()
+} // ~List<T>()
 
 
 template <typename T>
@@ -50,6 +50,7 @@ List<T>&  List<T>::operator += (const T &rhs)
    
     if (ptr)
     {
+        
         if (!prev) // beginning of the list
             head = new ListNode<T>(rhs, ptr);
         else // not beginning of the list
@@ -60,7 +61,7 @@ List<T>&  List<T>::operator += (const T &rhs)
         if (!prev) // list was empty    
                 head = new ListNode<T>(rhs, NULL);
         else // append to end of list
-            prev->next = new ListNode<T>(rhs,NULL);
+            prev->next = new ListNode<T>(rhs, NULL);
   return *this;
 }  // operator+=
 
