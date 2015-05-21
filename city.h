@@ -27,7 +27,9 @@ public:
   int showTraffic(const City &destCity) const;
   City& operator= (const City& rhs);
   bool operator == (const City &rhs) const;
+  bool operator < (const City &rhs) const;
   friend istream& operator >> (istream &is, City &rhs);
 };  // class City
 
 #endif	// CITY_H 
+
