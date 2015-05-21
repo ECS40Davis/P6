@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <climits>
 #include "list.h"
-#include "city.h"
+#include "airport.h"
 #include "plane.h"
 using namespace std;
 
@@ -226,7 +226,7 @@ void cleanCities(List<T> &cities)
 template <typename T>
 int findAirport(const List<T> &cities, const char *airport)
 {
-  City city;
+  Airport city;
   
   city.setAirport(airport);
   
@@ -243,7 +243,7 @@ template <typename T>
 void readAirports(List<T> &cities)
 {
   char line[1000], state2[80];
-  City city;
+  Airport city;
   ifstream inf("airportLL.txt");
 
   while (inf.getline(line, 1000))
@@ -272,7 +272,7 @@ template <typename T>
 void readCities(List<T> &cities)
 {
   ifstream inf("citypopulations.csv");
-  City city;
+  Airport city;
   
   while(!inf.eof())
   {
@@ -286,7 +286,7 @@ void readCities(List<T> &cities)
 
 int main(int argc, char** argv) 
 {
-  List<City> cities;
+  List<Airport> cities;
   List<Plane> planes;
   readCities(cities);
   readAirports(cities);
