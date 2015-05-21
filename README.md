@@ -1,6 +1,16 @@
 # P6
 Flights are added so that they pass through multiple airports.
 
+Completed:
+- Created a template (2)
+
+To do:
+- Create a sorted list for City
+- Change Plane to template
+
+References:
+- 
+
 **Again, this looks way better in edit mode**
 
 Convert CityList and CityNode to templace classes List and ListNode
