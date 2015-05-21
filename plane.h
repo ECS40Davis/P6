@@ -21,6 +21,8 @@ public:
   void getPlane();
   friend ostream& operator << (ostream &os, const Plane &plane);
   static const double fuelPrice = 3.39;
+  bool operator < (const Plane &rhs) const;
 };  // class Plane
 
 #endif	// PLANE_H
+
