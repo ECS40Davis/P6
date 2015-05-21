@@ -25,11 +25,14 @@ template <typename T>
 void readCities(List<T> &cities);
 
 
-void addPlaneInformation(Plane planes[], int *planeCount)
+// DO SOMETHING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+template <typename T>
+void addPlaneInformation(List<T> &planes)
 {
-  planes[*planeCount].getPlane();
+  Plane tempPlane;
+  tempPlane.getPlane();
   ofstream outf("planes.dat", ios::app | ios::binary);
-  outf.write((char*) &planes[(*planeCount)++], sizeof(Plane));
+  outf.write((char*) &planes[planes.getCount()], sizeof(Plane));
   outf.close();
 }  // addPlaneInformation()
 
@@ -63,9 +66,8 @@ void determineAirportTraffic(const List<T> &cities)
 }  // determinAirportTraffic()
 
 
-template <typename T>
-void determineBestPlane(const List<T> &cities, const Plane *planes, 
-                        int planeCount)
+template <typename T, typename P>
+void determineBestPlane(const List<T> &cities, const List<P> &planes)
 {
   char airport1[80], airport2[80];
   int index1, index2, distance, passengers, minIndex = -1, minCost = INT_MAX, 
@@ -79,7 +81,7 @@ void determineBestPlane(const List<T> &cities, const Plane *planes,
   {
     calcDistance(cities, index1, index2, &distance, &passengers, false);
       
-    for (int i = 0; i < planeCount; i++)
+    for (int i = 0; i < planes.getCount(); i++)
     {
        cost = planes[i].calcCost(distance, passengers, &trips);
        
@@ -103,13 +105,13 @@ void determineBestPlane(const List<T> &cities, const Plane *planes,
   }   // if valid inputs  
 }  //  determineBestPlane()
 
-
-void displayPlaneInformation(const Plane *planes, int planeCount)
+template <typename T>
+void displayPlaneInformation(const List<T> &planes)
 {
   cout << "\nPlane Information\n";
   cout << "Name        Pass. Range Speed Fuel   MPG   $/mi  Price * 10^6\n";
   
-  for (int i = 0; i < planeCount; i++)
+  for (int i = 0; i < planes.getCount(); i++)
     cout << planes[i];
 
 }  // displayPlaneInformation()
@@ -141,28 +143,33 @@ int getChoice()
 }  // getChoice()  
 
 
-void readPlanes(Plane planes[], int *planeCount)
+// DO SOMETHING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+template <typename T>
+void readPlanes(List<T> &planes)
 {
+  Plane tempPlane;
   ifstream inf("planes.dat", ios::binary);
-  *planeCount = 0;
   
   if (! inf)
     return;
 
-  while (inf.read((char*) &planes[(*planeCount)++], sizeof(Plane)));
+  while (inf.read((char*) &tempPlane, sizeof(Plane)))
+  {
+      planes += tempPlane;
+  } // while not the end of the file
 
-  --(*planeCount);
+  
   inf.close();
 } // readPlanes()
 
 
-template <typename T>
-void run(const List<T> &cities, Plane *planes, int planeCount)
+template <typename T, typename P>
+void run(const List<T> &cities, List<P> &planes)
 {
   int choice;
   
-//  for(index1 = 0; index1 < cities->List::getCount(); index1++)
-//    for(index2 = index1 + 1; index2  < cities->List::getCount(); index2++)
+//  for(index1 = 0; index1 < cities->List<T>::getCount(); index1++)
+//    for(index2 = index1 + 1; index2  < cities->List<T>::getCount(); index2++)
 //      calcDistance(cities, index1, index2);
 
   do
@@ -173,9 +180,9 @@ void run(const List<T> &cities, Plane *planes, int planeCount)
     {
       case 1 : calcDistance(cities); break;
       case 2 : determineAirportTraffic(cities); break;
-      case 3 : displayPlaneInformation(planes, planeCount); break;
-      case 4 : addPlaneInformation(planes, &planeCount); break;
-      case 5 : determineBestPlane(cities, planes, planeCount); break;
+      case 3 : displayPlaneInformation(planes); break;
+      case 4 : addPlaneInformation(planes); break;
+      case 5 : determineBestPlane(cities, planes); break;
     }  // switch
   } while(choice != 0);
 }  // run())
@@ -280,18 +287,18 @@ void readCities(List<T> &cities)
 int main(int argc, char** argv) 
 {
   List<City> cities;
-  Plane planes[10];
-  int planeCount = 0;
+  List<Plane> planes;
   readCities(cities);
   readAirports(cities);
   cleanCities(cities);
-  readPlanes(planes, &planeCount);
+  
+  readPlanes(planes); // DO <--------------------------
  
 //  srand(1);
-//  for(int i = 0; i < cities.List::getCount(); i++)
-//    cout << "1\n" << cities.cities[i].airport << ' ' << cities.cities[rand() % cities.List::getCount()].airport << endl;
+//  for(int i = 0; i < cities.List<T>::getCount(); i++)
+//    cout << "1\n" << cities.cities[i].airport << ' ' << cities.cities[rand() % cities.List<T>::getCount()].airport << endl;
 //  printf("%s %s %lf %lf\n", cities.cities[i].name, cities.cities[i].airport, cities.cities[i].latitude, cities.cities[i].longitude);
-  run(cities, planes, planeCount);
+  run(cities, planes);
   return 0;
 } // main())
 
