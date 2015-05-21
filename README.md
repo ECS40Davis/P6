@@ -3,9 +3,9 @@ Flights are added so that they pass through multiple airports.
 
 Completed:
 - Created a template (2)
+- Create a sorted list for City (3)
 
 To do:
-- Create a sorted list for City
 - Change Plane to template
 
 References:
