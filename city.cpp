@@ -199,3 +199,9 @@ istream& operator >> (istream &is, City &rhs)
   
   return is;
 }  // readCity()
+
+
+bool City::operator < (const City &rhs) const
+{
+    return population < rhs.population;
+} // operator <
