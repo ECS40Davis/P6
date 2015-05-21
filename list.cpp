@@ -16,7 +16,7 @@ ListNode<T>::ListNode(const T &d, ListNode<T> *n) : data(d), next(n)
 
 
 template <typename T>
-List<T>::List() : head(NULL), tail(NULL) 
+List<T>::List() : head(NULL)
 {
 } // List()
 
@@ -41,12 +41,26 @@ int List<T>::getCount()
 template <typename T>
 List<T>&  List<T>::operator += (const T &rhs)
 {
-  if (tail)
-    tail = tail->next = new ListNode<T>(rhs, NULL);
-  else // an empty list
-    head = tail = new ListNode<T>(rhs, NULL);
-  
-  count++;
+    ListNode<T> *ptr, *prev = NULL;
+    
+    for (ptr = head; ptr && (ptr->data < rhs); ptr = ptr->next)
+    {
+        prev = ptr;
+    } // go through the elements
+   
+    if (ptr)
+    {
+        if (!prev) // beginning of the list
+            head = new ListNode<T>(rhs, ptr);
+        else // not beginning of the list
+            prev->next = new ListNode<T>(rhs, ptr);
+    } // if not at the end of the list
+    
+    else // end of the list
+        if (!prev) // list was empty    
+                head = new ListNode<T>(rhs, NULL);
+        else // append to end of list
+            prev->next = new ListNode<T>(rhs,NULL);
   return *this;
 }  // operator+=
 
@@ -65,19 +79,9 @@ List<T>& List<T>::operator -= (const T &rhs)
     count--;
     
     if (!prev)  // found at front of list
-    {
       head = ptr->next;
-      
-      if (!head)  // head == NULL so now empty list
-        tail = NULL;
-    }  // if removing first node
     else // removing node after the first
-    {
       prev->next = ptr->next;
-      
-      if (tail == ptr)
-        tail = prev;
-    }  // else removing after the first node
     
     delete ptr;
   }  // if found 
