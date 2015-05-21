@@ -1,127 +1,41 @@
-// Author: Jessica Ma
-#include <iostream>
-#include <cstdlib>
-#include "list.h"
-using namespace std;
+#ifndef LIST_H
+  #define	LIST_H
+
+#include "city.h"
 
 template <typename T>
-int List<T>::count = 0;
+class List;
 
 
 template <typename T>
-ListNode<T>::ListNode(const T &d, ListNode<T> *n) : data(d), next(n)
+class ListNode
 {
-  
-}  // ListNode<T>())
+  T data;
+  ListNode<T> *next;
+  ListNode(const T &d, ListNode<T> *n);
+  friend class List<T>;
+};  // class ListNode
 
 
 template <typename T>
-List<T>::List() : head(NULL)
+class List 
 {
-} // List<T>()
+  ListNode<T> *head;
+  static int count;
+public:
+  List();
+  List(const List& orig);
+  ~List();
+  static int getCount();
+ List&  operator += (const T &rhs);
+ List& operator -= (const T &rhs);
+ const T& operator [] (int index) const;
+ T& operator [] (int index);
+
+}; // class List 
 
 
-template <typename T>
-List<T>::~List() 
-{
-  for (ListNode<T> *ptr = head; ptr; ptr = head)
-  {
-    head = ptr->next;
-    delete ptr;
-  }  // for each node
-} // ~List<T>()
+#include "list.cpp"
 
+#endif	// LIST_H 
 
-template <typename T>
-int List<T>::getCount()
-{
-  return count;
-}  // getCount()
-
-template <typename T>
-List<T>&  List<T>::operator += (const T &rhs)
-{
-    ListNode<T> *ptr, *prev = NULL;
-    
-    for (ptr = head; ptr && (ptr->data < rhs); ptr = ptr->next)
-    {
-        prev = ptr;
-    } // go through the elements
-   
-    if (ptr)
-    {
-        
-        if (!prev) // beginning of the list
-            head = new ListNode<T>(rhs, ptr);
-        else // not beginning of the list
-            prev->next = new ListNode<T>(rhs, ptr);
-    } // if not at the end of the list
-    
-    else // end of the list
-        if (!prev) // list was empty    
-                head = new ListNode<T>(rhs, NULL);
-        else // append to end of list
-            prev->next = new ListNode<T>(rhs, NULL);
-  return *this;
-}  // operator+=
-
-
-// only changed city to data?
-template <typename T>
-List<T>& List<T>::operator -= (const T &rhs)
-{
-  ListNode<T> *ptr, *prev = NULL;
-  
-  for (ptr = head; ptr && ! (ptr->data == rhs); ptr = ptr->next)
-    prev = ptr;
-  
-  if (ptr)
-  {
-    count--;
-    
-    if (!prev)  // found at front of list
-      head = ptr->next;
-    else // removing node after the first
-      prev->next = ptr->next;
-    
-    delete ptr;
-  }  // if found 
-
-  return *this;
-}  // operator -=
-
-
-template <typename T>
-const T& List<T>::operator [] (int index) const
-{
-  int pos = 0;
-  ListNode<T> *ptr;
-  
-  for (ptr = head; ptr && pos != index; ptr = ptr->next, pos++);
-   
-  if (!ptr)
-  {
-     cout << "Error in array indexing!\n";
-     exit(1);
-  }  // if index beyond end of list
-
-  return ptr->data; 
-}  // const operator[]
- 
- 
-template <typename T>
-T& List<T>::operator [] (int index)
-{
-  int pos = 0;
-  ListNode<T> *ptr;
-   
-  for (ptr = head; ptr && pos != index; ptr = ptr->next, pos++);
-   
-  if (!ptr)
-  {
-    cout << "Error in array indexing!\n";
-    exit(1);
-  } // if index beyond end of the array.
-
-  return ptr->data; 
-}  // non-const operator[]
