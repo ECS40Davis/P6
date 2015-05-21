@@ -1,37 +1,42 @@
-#ifndef List_H
-#define	List_H
+#ifndef LIST_H
+  #define	LIST_H
 
 #include "city.h"
-#include "list.cpp"
 
+template <typename T>
 class List;
 
-template <class T>
+
+template <typename T>
 class ListNode
 {
-    City data;
-    ListNode *next;
-    ListNode(const City &c, ListNode *node);
-    friend class List;
+  T data;
+  ListNode<T> *next;
+  ListNode(const T &d, ListNode<T> *n);
+  friend class List<T>;
 };  // class ListNode
 
-template <class T>
-class  List
-{
-    ListNode *head;
-    ListNode *tail;
-    static int count;
-public:
-    List();
-    List(const List& orig);
-    ~List();
-    static int getCount();
-    List&  operator += (const City &rhs);
-    List& operator -= (const City &rhs);
-    const City& operator [] (int index) const;
-    City& operator [] (int index);
-    
-}; // class List
 
-#endif	// List_H
+template <typename T>
+class List 
+{
+  ListNode<T> *head;
+  ListNode<T> *tail;
+  static int count;
+public:
+  List();
+  List(const List& orig);
+  ~List();
+  static int getCount();
+ List&  operator += (const T &rhs);
+ List& operator -= (const T &rhs);
+ const T& operator [] (int index) const;
+ T& operator [] (int index);
+
+}; // class List 
+
+
+#include "list.cpp"
+
+#endif	// LIST_H 
 
